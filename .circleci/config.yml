@@ -6,16 +6,16 @@ version: 2
 jobs:
   build:
     docker:
-          - image: circleci/ruby:2.4.1-node-browsers
-            environment:
-            - PG_HOST=localhost
-            - PG_USER=ubuntu
-            - RAILS_ENV=test
-            - RACK_ENV=test
-          - image: postgres:9.6
-            environment:
-            - POSTGRES_USER=ubuntu
-            - POSTGRES_DB=item_cart_test
+      - image: circleci/ruby:2.4.1-node-browsers
+        environment:
+        - PG_HOST=localhost
+        - PG_USER=ubuntu
+        - RAILS_ENV=test
+        - RACK_ENV=test
+      - image: postgres:9.6
+        environment:
+        - POSTGRES_USER=ubuntu
+        - POSTGRES_DB=item_cart_test
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
