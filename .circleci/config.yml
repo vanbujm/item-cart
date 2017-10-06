@@ -6,8 +6,16 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-       - image: circleci/ruby:2.4.1-node-browsers
+          - image: circleci/ruby:2.4.1-node-browsers
+            environment:
+            - PG_HOST=localhost
+            - PG_USER=ubuntu
+            - RAILS_ENV=test
+            - RACK_ENV=test
+          - image: postgres:9.6
+            environment:
+            - POSTGRES_USER=ubuntu
+            - POSTGRES_DB=item_cart_test
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -37,8 +45,12 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
         
       # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - name: Setup DB
+        command: |
+                  bundle exec rake db:create db:schema:load --trace
+                  bundle exec rake db:migrate
+        environment:
+          DATABASE_URL: "postgres://ubuntu@localhost:5432/item_cart_test"
 
       # run tests!
       - run:
