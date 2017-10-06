@@ -1,9 +1,4 @@
 version: 2
-deployment:
-  prod:
-      branch: master
-      heroku:
-        appname: react-rails-nopsema
 jobs:
   build:
     working_directory: ~/item_cart
