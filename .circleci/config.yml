@@ -1,4 +1,9 @@
 version: 2
+deployment:
+  prod:
+      branch: master
+      heroku:
+        appname: react-rails-nopsema
 jobs:
   build:
     working_directory: ~/item_cart
@@ -58,9 +63,3 @@ jobs:
       # Save artifacts
       - store_test_results:
           path: /tmp/test-results
-
-deployment:
-  staging:
-    branch: master
-    heroku:
-      appname: react-rails-nopsema
