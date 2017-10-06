@@ -45,12 +45,13 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
         
       # Database setup
-      - name: Setup DB
-        command: |
-                  bundle exec rake db:create db:schema:load --trace
-                  bundle exec rake db:migrate
-        environment:
-          DATABASE_URL: "postgres://ubuntu@localhost:5432/item_cart_test"
+      - run:
+        - name: Setup DB
+          command: |
+                    bundle exec rake db:create db:schema:load --trace
+                    bundle exec rake db:migrate
+          environment:
+            DATABASE_URL: "postgres://ubuntu@localhost:5432/item_cart_test"
 
       # run tests!
       - run:
