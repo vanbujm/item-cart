@@ -23,8 +23,13 @@ jobs:
 
       # Bundle install dependencies
       - run:
-          name: Install dependencies
+          name: Install ruby dependencies
           command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
+
+      # Yarn install dependencies
+      - run:
+          name: Install javascript dependencies
+          command: ./bin/yarn install
 
       - run: sudo apt install postgresql-client
 

@@ -7,11 +7,4 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-import React from 'react';
-import { render } from 'react-dom';
-import SampleComponent from '../components/SampleComponent';
-
-document.addEventListener('DOMContentLoaded', () => {
-    const container = document.body.appendChild(document.createElement('div'));
-    render(<SampleComponent/>, container);
-});
+console.log('Hello World from Webpacker')
