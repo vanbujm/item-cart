@@ -30,7 +30,7 @@ jobs:
       # Yarn install dependencies
       - run:
           name: Install javascript dependencies
-          command: ./bin/yarn check || ./bin/yarn install
+          command: ./bin/yarn install
 
       - run: sudo apt install postgresql-client
 
@@ -44,6 +44,7 @@ jobs:
           key: rails-demo-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
+            - yarn-cache
 
       - run:
           name: Database Setup
