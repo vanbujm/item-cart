@@ -60,10 +60,10 @@ jobs:
           path: /tmp/test-results
 
       # deploy to heroku
-#      - run: bash .circleci/setup-heroku.sh
-#        - add_ssh_keys:
-#            fingerprints:
-#              - "48:a0:87:54:ca:75:32:12:c6:9e:a2:77:a4:7a:08:a4"
+      - run: bash .circleci/setup-heroku.sh
+        - add_ssh_keys:
+            fingerprints:
+              - "SHA256:c+jLJJ5f/yG/x433FUYWonuUxb4OfkI1eBSiZI3hzRE jvburen@Jonathans-MacBook-Pro.local"
       - deploy:
           name: Deploy Master to Heroku
           command: |
