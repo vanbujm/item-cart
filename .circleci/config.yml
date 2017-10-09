@@ -19,6 +19,7 @@ jobs:
       - restore_cache:
           keys:
             - rails-demo-{{ checksum "Gemfile.lock" }}
+            - rails-demo-{{ checksum "yarn.lock" }}
             - rails-demo-
 
       # Bundle install dependencies
@@ -38,6 +39,11 @@ jobs:
           key: rails-demo-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+      # Store node_modules cache
+      - save_cache:
+          key: rails-demo-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
 
       - run:
           name: Database Setup
