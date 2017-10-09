@@ -30,7 +30,7 @@ jobs:
       # Yarn install dependencies
       - run:
           name: Install javascript dependencies
-          command: ./bin/yarn install
+          command: ./bin/yarn check --integrity || ./bin/yarn install
 
       - run: sudo apt install postgresql-client
 
