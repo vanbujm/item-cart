@@ -30,7 +30,7 @@ jobs:
       # Yarn install dependencies
       - run:
           name: Install javascript dependencies
-          command: ./bin/yarn install
+          command: ./bin/yarn install --cache-folder yarn-cache
 
       - run: sudo apt install postgresql-client
 
@@ -58,7 +58,7 @@ jobs:
           command: bin/rails test
       - run:
           name: run javascript tests
-          command: yarn test
+          command: yarn test --cache-folder yarn-cache
 
       # Save artifacts
       - store_test_results:
