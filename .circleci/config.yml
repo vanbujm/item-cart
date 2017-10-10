@@ -30,7 +30,7 @@ jobs:
       # Yarn install dependencies
       - run:
           name: Install javascript dependencies
-          command: ./bin/yarn install --cache-folder yarn-cache
+          command: ./bin/yarn check  --cache-folder yarn-cache || ./bin/yarn install --cache-folder yarn-cache
 
       - run: sudo apt install postgresql-client
 
