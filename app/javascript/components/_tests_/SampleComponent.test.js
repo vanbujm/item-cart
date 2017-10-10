@@ -6,5 +6,5 @@ test('SampleComponent renders', () => {
     const component = shallow(
         <SampleComponent/>
     );
-    expect(component.html()).toMatchSnapshot();
+    expect(component).toMatchSnapshot();
 });
