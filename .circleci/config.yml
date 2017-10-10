@@ -27,9 +27,9 @@ jobs:
           command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
 
       # Yarn install dependencies
-      - run:
+      - run
           name: Install javascript dependencies
-          command: ./bin/yarn check  --cache-folder yarn-cache || ./bin/yarn install --cache-folder yarn-cache
+          command: ./bin/yarn install --cache-folder yarn-cache
 
       - run: sudo apt install postgresql-client
 
@@ -53,7 +53,7 @@ jobs:
           command: bin/rails test
       - run:
           name: run javascript tests
-          command: yarn test --cache-folder yarn-cache
+          command: yarn test
 
       # Save artifacts
       - store_test_results:
