@@ -54,8 +54,12 @@ jobs:
 
       # run tests!
       - run:
-          name: run tests
+          name: run rails tests
           command: bin/rails test
+      - run:
+        name: run javascript tests
+        command: yarn test
+
       # Save artifacts
       - store_test_results:
           path: /tmp/test-results
