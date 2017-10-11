@@ -110,6 +110,7 @@ jobs:
             mkdir reports
             mkdir reports/rails
       - run:
+          name: run tests
           command: bundle exec rails test TESTOPTS="--ci-dir=reports"
       - store_test_results:
           path: reports/rails
