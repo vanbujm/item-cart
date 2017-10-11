@@ -153,7 +153,7 @@ jobs:
           command: |
             git add public
             git commit -m "Precompile assets"
-            git push heroku HEAD:refs/heads/master -f
+            git push -f heroku master
             heroku run rails db:migrate
             sleep 5 # sleep for 5 seconds to wait for dynos
             heroku restart
