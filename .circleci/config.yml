@@ -104,7 +104,6 @@ jobs:
       - run:
           name: yarn
           command: yarn --cache-folder yarn-cache
-      - run: mkdir reports/rails
       - run:
           command: bundle exec rails test TESTOPTS="--ci-dir=reports"
       - store_test_results:

@@ -56,3 +56,6 @@ gem "webpacker", "~> 3.0"
 
 # Added at 2017-10-09 16:23:54 +0800 by jvburen:
 gem "foreman", "~> 0.64.0"
+
+# Added at 2017-10-11 17:40:33 +0800 by jvburen:
+gem "minitest-ci", "~> 3.3"
