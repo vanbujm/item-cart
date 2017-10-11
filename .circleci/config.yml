@@ -1,5 +1,4 @@
-version: 2
-default_server:
+defaults: &defaults
   working_directory: ~/react_rails
   docker:
     - image: circleci/ruby:2.4.1-node
@@ -12,10 +11,10 @@ default_server:
         POSTGRES_USER: root
         POSTGRES_DB: react_rails_test
 
+version: 2
 jobs:
   build:
-    <<: *default_server
-    
+    <<: *defaults
     steps:
       - checkout
 
