@@ -132,6 +132,7 @@ workflows:
        - rails_tests:
            requires:
              - bundle_rails_dependencies
+             - bundle_javascript_dependencies
        - javascript_tests:
            requires:
              - bundle_javascript_dependencies
