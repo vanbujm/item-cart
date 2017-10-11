@@ -121,7 +121,7 @@ jobs:
           command: bash .circleci/setup-heroku.sh
       - run:
           command: |
-            git push heroku react-rails-nopsema:master
+            git push heroku master
             heroku run rails db:migrate
             sleep 5 # sleep for 5 seconds to wait for dynos
             heroku restart
