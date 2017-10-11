@@ -106,12 +106,11 @@ jobs:
           command: yarn --cache-folder yarn-cache
       - run: mkdir reports/rails
       - run:
-          command: bundle exec rails test TESTOPTS="--ci-dir=./reports":
-          when: always
+          command: bundle exec rails test TESTOPTS="--ci-dir=reports"
       - store_test_results:
           path: reports/rails
       - store_artifacts:
-                path: reports/rails
+          path: reports/rails
 
   javascript_tests:
     <<: *defaults
