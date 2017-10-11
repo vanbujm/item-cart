@@ -56,21 +56,6 @@ jobs:
           name: run javascript tests
           command: yarn test
 
-      # Save artifacts
-      - store_test_results:
-          path: /tmp/test-results
-
-      # collect reports
-      - store_test_results:
-          path: tmp/test-results
-      - store_artifacts:
-          path: tmp/test-results
-          destination: test-results
-
-      # Save artifacts
-      - store_test_results:
-          path: /tmp/test-results
-
       # deploy to heroku
       - run:
           name: setup heroku
