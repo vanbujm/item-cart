@@ -23,3 +23,6 @@
 .byebug_history
 .idea/
 heroku
+public/assets/
+public/packs-test/
+public/packs/
