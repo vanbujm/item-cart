@@ -82,7 +82,7 @@ jobs:
           name: Precompile assets
           command: bundle exec rails assets:precompile
       - save_cache:
-          key: - rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
+          key: rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - public
 
@@ -174,12 +174,12 @@ workflows:
            requires:
              - bundle_rails_dependencies
              - bundle_javascript_dependencies
-#       - precompile_assets:
-#           requires:
-#             - bundle_rails_dependencies
-#             - bundle_javascript_dependencies
+       - precompile_assets:
+           requires:
+             - bundle_rails_dependencies
+             - bundle_javascript_dependencies
        - deploy:
            requires:
              - rails_tests
              - javascript_tests
-#             - precompile_assets
+             - precompile_assets
