@@ -70,10 +70,13 @@ jobs:
           keys:
             - rails-react-{{ checksum "Gemfile.lock" }}
       - run:
+          name: bundle
+          command: bundle --path=vendor/bundle
+      - run:
           name: database setup
           command: |
-            bundle exec bin/rails db:create
-            bundle exec bin/rails db:schema:load
+            bundle exec rails db:create
+            bundle exec rails db:schema:load
       - run:
           name: run rails tests
           command: bin/rails test
