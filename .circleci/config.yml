@@ -124,7 +124,7 @@ jobs:
       - save_cache:
           key: - rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/rails-react/public/
+            - ~/rails-react/public
 
   deploy:
     machine:
