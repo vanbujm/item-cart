@@ -41,51 +41,63 @@ jobs:
           name: Install ruby dependencies
           command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
       - save_cache:
-                key: rails-react-{{ checksum "Gemfile.lock" }}
-                paths:
-                  - vendor/bundle
+          key: rails-react-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - run:
           name: Install javascript dependencies
           command: ./bin/yarn install --cache-folder yarn-cache
       - save_cache:
-                key: rails-react-{{ checksum "yarn.lock" }}
-                paths:
-                  - node_modules
-                  - yarn-cache
+          key: rails-react-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+            - yarn-cache
 
   rails_tests:
     <<: *defaults
     steps:
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "Gemfile.lock" }}
       - run:
-        name: database setup
-        command: |
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
+          name: database setup
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:schema:load
       - run:
-        name: run rails tests
-        command: bin/rails test
+          name: run rails tests
+          command: bin/rails test
 
   javascript_tests:
     <<: *defaults
     steps:
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
       - run:
-        name: run javascript tests
-        command: yarn test
+          name: run javascript tests
+          command: yarn test
 
   deploy:
     <<: *defaults
     steps:
       - run:
-        name: setup heroku
-        command: bash .circleci/setup-heroku.sh
+          name: setup heroku
+          command: bash .circleci/setup-heroku.sh
 
-      - deploy:
-        name: Deploy Master to Heroku
-        command: |
-          if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            git push heroku master
-            heroku restart
-          fi
+      - run:
+          name: Deploy Master to Heroku
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git push heroku master
+              heroku restart
+            fi
 
 workflows:
    version: 2
