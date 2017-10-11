@@ -60,31 +60,31 @@ jobs:
             - node_modules
             - yarn-cache
 
-  precompile_assets:
-      <<: *defaults
-      steps:
-        - restore_cache:
-            keys:
-              - rails-react-{{ .Environment.CIRCLE_SHA1 }}
-        - restore_cache:
-            keys:
-              - rails-react-{{ checksum "Gemfile.lock" }}
-        - restore_cache:
-            keys:
-              - rails-react-{{ checksum "yarn.lock" }}
-        - run:
-            name: bundle
-            command: bundle --path=vendor/bundle
-        - run:
-            name: yarn
-            command: yarn --cache-folder yarn-cache
-        - run:
-            name: Precompile assets
-            command: bundle exec rails assets:precompile
-        - save_cache:
-            key: - rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
-            paths:
-              - public
+#  precompile_assets:
+#      <<: *defaults
+#      steps:
+#        - restore_cache:
+#            keys:
+#              - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+#        - restore_cache:
+#            keys:
+#              - rails-react-{{ checksum "Gemfile.lock" }}
+#        - restore_cache:
+#            keys:
+#              - rails-react-{{ checksum "yarn.lock" }}
+#        - run:
+#            name: bundle
+#            command: bundle --path=vendor/bundle
+#        - run:
+#            name: yarn
+#            command: yarn --cache-folder yarn-cache
+#        - run:
+#            name: Precompile assets
+#            command: bundle exec rails assets:precompile
+#        - save_cache:
+#            key: - rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
+#            paths:
+#              - public
 
   rails_tests:
     <<: *defaults
@@ -174,12 +174,12 @@ workflows:
            requires:
              - bundle_rails_dependencies
              - bundle_javascript_dependencies
-       - precompile_assets:
-           requires:
-             - bundle_rails_dependencies
-             - bundle_javascript_dependencies
+#       - precompile_assets:
+#           requires:
+#             - bundle_rails_dependencies
+#             - bundle_javascript_dependencies
        - deploy:
            requires:
              - rails_tests
              - javascript_tests
-             - precompile_assets
+#             - precompile_assets
