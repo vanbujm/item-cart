@@ -101,30 +101,30 @@ jobs:
           command: yarn test
 
   precompile_assets:
-      <<: *defaults
-      steps:
-        - restore_cache:
-            keys:
-              - rails-react-{{ .Environment.CIRCLE_SHA1 }}
-        - restore_cache:
-            keys:
-              - rails-react-{{ checksum "Gemfile.lock" }}
-        - restore_cache:
-            keys:
-              - rails-react-{{ checksum "yarn.lock" }}
-        - run:
-            name: bundle
-            command: bundle --path=vendor/bundle
-        - run:
-            name: yarn
-            command: yarn --cache-folder yarn-cache
-        - run:
-            name: Precompile assets
-            command: bundle exec rails assets:precompile
-        - save_cache:
-            key: - rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
-            paths:
-              - ~/rails-react/public/
+    <<: *defaults
+    steps:
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
+      - run:
+          name: bundle
+          command: bundle --path=vendor/bundle
+      - run:
+          name: yarn
+          command: yarn --cache-folder yarn-cache
+      - run:
+          name: Precompile assets
+          command: bundle exec rails assets:precompile
+      - save_cache:
+          key: - rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/rails-react/public/
 
   deploy:
     machine:
