@@ -69,9 +69,15 @@ jobs:
       - restore_cache:
           keys:
             - rails-react-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
       - run:
           name: bundle
           command: bundle --path=vendor/bundle
+      - run:
+          name: yarn
+          command: yarn --cache-folder yarn-cache
       - run:
           name: database setup
           command: |
