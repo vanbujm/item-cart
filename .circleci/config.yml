@@ -25,13 +25,14 @@ jobs:
       - run:
           name: Install ruby dependencies
           command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
-
       # Yarn install dependencies
       - run:
           name: Install javascript dependencies
           command: ./bin/yarn install --cache-folder yarn-cache
 
-      - run: sudo apt install postgresql-client
+      - run:
+          name: install postgres client
+          command: sudo apt install postgresql-client
 
       # Store bundle cache
       - save_cache:
@@ -71,10 +72,10 @@ jobs:
           path: /tmp/test-results
 
       # deploy to heroku
-      - run: bash .circleci/setup-heroku.sh
-#        - add_ssh_keys:
-#          fingerprints:
-#            - "d1:a7:c8:95:54:06:be:55:8a:c1:55:59:28:d5:be:3a"
+      - run:
+          name: setup heroku
+          command: bash .circleci/setup-heroku.sh
+
       - deploy:
           name: Deploy Master to Heroku
           command: |
