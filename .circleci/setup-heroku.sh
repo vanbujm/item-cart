@@ -1,6 +1,5 @@
 #!/bin/bash
 
-git remote add heroku https://git.heroku.com/react-rails-nopsema.git
 wget https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz
 sudo mkdir -p /usr/local/lib /usr/local/bin
 sudo tar -xvzf heroku-linux-amd64.tar.gz -C /usr/local/lib
@@ -15,5 +14,4 @@ machine git.heroku.com
   password $HEROKU_API_KEY
 EOF
 
-git add public
-git commit -m "Precompile assets"
+git remote add heroku https://git.heroku.com/react-rails-nopsema.git
