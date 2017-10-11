@@ -104,14 +104,14 @@ jobs:
       - run:
           name: yarn
           command: yarn --cache-folder yarn-cache
+      - run: mkdir reports/rails
       - run:
-          name: database setup
-          command: |
-            bundle exec rails db:create
-            bundle exec rails db:schema:load
-      - run:
-          name: run rails tests
-          command: bin/rails test
+          command: bundle exec rails test TESTOPTS="--ci-dir=./reports":
+          when: always
+      - store_test_results:
+          path: reports/rails
+      - store_artifacts:
+                path: reports/rails
 
   javascript_tests:
     <<: *defaults
@@ -123,8 +123,14 @@ jobs:
           keys:
             - rails-react-{{ checksum "yarn.lock" }}
       - run:
-          name: run javascript tests
-          command: yarn test
+          name: Jest Suite
+          command: yarn jest tests --ci --testResultsProcessor="jest-junit"
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
 
   deploy:
     machine:
