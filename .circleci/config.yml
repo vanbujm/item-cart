@@ -25,7 +25,7 @@ jobs:
           paths:
             - ~/react_rails
 
-  bundle_dependencies:
+  bundle_rails_dependencies:
     <<: *defaults
     steps:
       - restore_cache:
@@ -34,9 +34,6 @@ jobs:
       - restore_cache:
           keys:
             - rails-react-{{ checksum "Gemfile.lock" }}
-      - restore_cache:
-          keys:
-            - rails-react-{{ checksum "yarn.lock" }}
       - run:
           name: Install ruby dependencies
           command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
@@ -44,6 +41,16 @@ jobs:
           key: rails-react-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+
+  bundle_javascript_dependencies:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
       - run:
           name: Install javascript dependencies
           command: ./bin/yarn install --cache-folder yarn-cache
@@ -65,8 +72,8 @@ jobs:
       - run:
           name: database setup
           command: |
-            bundle exec rake db:create
-            bundle exec rake db:schema:load
+            bundle exec rails db:create
+            bundle exec rails db:schema:load
       - run:
           name: run rails tests
           command: bin/rails test
@@ -87,6 +94,15 @@ jobs:
   deploy:
     <<: *defaults
     steps:
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
       - run:
           name: setup heroku
           command: bash .circleci/setup-heroku.sh
@@ -109,10 +125,10 @@ workflows:
              - checkout_code
        - rails_tests:
            requires:
-             - bundle_dependencies
+             - bundle_rails_dependencies
        - javascript_tests:
            requires:
-             - bundle_dependencies
+             - bundle_javascript_dependencies
        - deploy:
            requires:
              - rails_tests
