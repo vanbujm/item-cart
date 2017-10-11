@@ -120,7 +120,10 @@ workflows:
    build-and-deploy:
      jobs:
        - checkout_code
-       - bundle_dependencies:
+       - bundle_rails_dependencies:
+           requires:
+             - checkout_code
+       - bundle_javascript_dependencies:
            requires:
              - checkout_code
        - rails_tests:
