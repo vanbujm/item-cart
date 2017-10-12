@@ -23,7 +23,9 @@ jobs:
           name: install postgres client
           command: sudo apt install postgresql-client
       - persist_to_workspace:
-          root: .
+          root: /home/circleci/react_rails
+          paths:
+            - .
 
   bundle_rails_dependencies:
     <<: *defaults
@@ -41,7 +43,7 @@ jobs:
           paths:
             - vendor/bundle
       - persist_to_workspace:
-          root: .
+          root: /home/circleci/react_rails
           paths:
             - vendor/bundle
 
@@ -62,7 +64,7 @@ jobs:
             - node_modules
             - yarn-cache
       - persist_to_workspace:
-          root: .
+          root: /home/circleci/react_rails
           paths:
              - node_modules
              - yarn-cache
@@ -86,7 +88,7 @@ jobs:
           paths:
             - public
       - persist_to_workspace:
-          root: .
+          root: /home/circleci/react_rails
           paths:
              - public
 
