@@ -163,13 +163,18 @@ jobs:
           command: |
             git config user.name "vanbujm"
             git config user.email "vanbujm@gmail.com"
-            git status
             git add public
+            echo $?
             git commit -m "Precompile assets"
+            echo $?
             git push -f heroku master
+            echo $?
             heroku run rails db:migrate
+            echo $?
             sleep 5 # sleep for 5 seconds to wait for dynos
+            echo $?
             heroku restart
+            echo $?
 
 workflows:
    version: 2
