@@ -17,21 +17,20 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/react_rails
       - run:
           name: install postgres client
           command: sudo apt install postgresql-client
-      - persist_to_workspace:
-          root: /home/circleci/react_rails
+      - save_cache:
+          key: rails-react-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - .
+            - ~/react_rails
 
   bundle_rails_dependencies:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/react_rails
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
             - rails-react-{{ checksum "Gemfile.lock" }}
@@ -42,16 +41,13 @@ jobs:
           key: rails-react-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-      - persist_to_workspace:
-          root: /home/circleci/react_rails
-          paths:
-            - vendor/bundle
 
   bundle_javascript_dependencies:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/react_rails
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
             - rails-react-{{ checksum "yarn.lock" }}
@@ -63,17 +59,19 @@ jobs:
           paths:
             - node_modules
             - yarn-cache
-      - persist_to_workspace:
-          root: /home/circleci/react_rails
-          paths:
-             - node_modules
-             - yarn-cache
 
   precompile_assets:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/react_rails
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
       - run:
           name: bundle
           command: bundle --path=vendor/bundle
@@ -87,16 +85,19 @@ jobs:
           key: rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - public
-      - persist_to_workspace:
-          root: /home/circleci/react_rails
-          paths:
-             - public
 
   rails_tests:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/react_rails
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
       - run:
           name: bundle
           command: bundle --path=vendor/bundle
@@ -119,8 +120,12 @@ jobs:
   javascript_tests:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/react_rails
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
       - run:
           name: Jest Suite
           command: yarn jest tests --ci --testResultsProcessor="jest-junit"
@@ -138,8 +143,18 @@ jobs:
     environment:
       - HEROKU_APP: react-rails-nopsema
     steps:
-      - attach_workspace:
-          at: ~/react_rails
+      - restore_cache:
+          keys:
+            - rails-react-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - rails-react-{{ checksum "yarn.lock" }}
+      - restore_cache:
+          keys:
+            - rails-react-assets-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Setup Heroku
           command: bash .circleci/setup-heroku.sh
