@@ -163,7 +163,6 @@ jobs:
           command: |
             git config user.name "vanbujm"
             git config user.email "vanbujm@gmail.com"
-            pwd
             git status
             git add public
             git commit -m "Precompile assets"
